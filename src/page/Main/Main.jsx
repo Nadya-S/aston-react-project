@@ -1,5 +1,13 @@
+import CardList from "../../components/CardList/CardList";
+import SearchForm from "../../components/SearchForm/SearchForm";
+
 const Main = () => {
-  return <div>Hello</div>;
+  return (
+    <section>
+      <SearchForm />
+      <CardList />
+    </section>
+  );
 };
 
 export default Main;
