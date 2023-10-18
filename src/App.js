@@ -1,7 +1,7 @@
 import "./App.css";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Main from "./page/Main/Main";
-import Login from "./page/Login/Login";
+import { Login } from "./page/Login/Login";
 import Registration from "./page/Registration/Registration";
 import FavoriteMovies from "./page/FavoriteMovies/FavoriteMovies";
 import History from "./page/History/History";
