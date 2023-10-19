@@ -1,0 +1,15 @@
+.movie {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: cadetblue;
+  width: 90vw;
+  height: 100vh;
+}
+
+.movie__image_container {
+  width: 30vw;
+  height: 50vh;
+  background-color: black;
+  margin: 50px 0;
+}
