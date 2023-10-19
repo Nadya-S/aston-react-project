@@ -1,0 +1,10 @@
+.more-button {
+  width: 100%;
+  height: 25px;
+  border: none;
+  background-color: rgb(219, 126, 59);
+}
+
+.more-button:hover {
+  cursor: pointer;
+}
