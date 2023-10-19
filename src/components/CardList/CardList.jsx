@@ -3,6 +3,7 @@ import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import MoreButton from "../MoreButton/MoreButton";
 
 const CardList = ({ movies }) => {
   console.log(movies);
@@ -13,10 +14,11 @@ const CardList = ({ movies }) => {
           <ImageListItem key={item.id}>
             <img
               srcSet={`${item.poster.previewUrl}?w=248&fit=crop&auto=format&dpr=2 2x`}
-              src={`${item.img}?w=248&fit=crop&auto=format`}
+              src={`${item.poster.previewUrl}?w=248&fit=crop&auto=format`}
               alt={item.title}
               loading="lazy"
             />
+            <MoreButton id={item.id} />
             <ImageListItemBar
               title={
                 <span>
