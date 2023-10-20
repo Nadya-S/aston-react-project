@@ -1,0 +1,23 @@
+.card {
+  display: flex;
+  margin-top: 30px;
+}
+
+.card__title_container {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid rgb(219, 126, 59);
+}
+
+.card__title {
+  margin: 0;
+}
+
+.card__description_container {
+  margin: 0 30px;
+}
+
+.card__description {
+  width: 50vw;
+}

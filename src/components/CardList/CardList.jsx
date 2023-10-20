@@ -3,6 +3,7 @@ import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import MoreButton from "../MoreButton/MoreButton";
 
 const CardList = ({ movies }) => {
   if (movies.length > 0) {
@@ -16,6 +17,7 @@ const CardList = ({ movies }) => {
               alt={item.title}
               loading="lazy"
             />
+            <MoreButton id={item.id} />
             <ImageListItemBar
               title={
                 <span>
