@@ -6,7 +6,6 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import MoreButton from "../MoreButton/MoreButton";
 
 const CardList = ({ movies }) => {
-  console.log(movies);
   if (movies.length > 0) {
     return (
       <ImageList cols={3}>

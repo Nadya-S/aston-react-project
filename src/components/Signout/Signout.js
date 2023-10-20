@@ -1,19 +1,20 @@
 import Button from '@mui/material/Button'
-import { supabase } from "@supabase/auth-ui-shared"
-// import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+import supabase from '../../supabaseClient'
 
-export const Signout = () => {
-
-    // const navigate = useNavigate()    //Раскомментить когда будут Router
+const Signout = () => {
+    const navigate = useNavigate()
 
     const signOut = () => {
         supabase.auth.signOut()
-        // navigate('/')
+        navigate('/')
     }
 
     return (
         <>
-            <Button variant="outlined">Выйти</Button>
+            <Button onClick={signOut} variant="outlined">Выйти</Button>
         </>
     )
 }
+
+export default Signout
