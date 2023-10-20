@@ -1,0 +1,9 @@
+.history-item {
+  margin: 30px 0;
+}
+
+.history-item__search-data {
+  text-align: left;
+  margin: 0 10px;
+  padding: 10px 0;
+}
