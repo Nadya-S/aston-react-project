@@ -1,9 +1,8 @@
 import Button from '@mui/material/Button'
-import { supabase } from "@supabase/auth-ui-shared"
 import { useNavigate } from "react-router-dom"
+import supabase from '../../supabaseClient'
 
-export const Signout = () => {
-
+const Signout = () => {
     const navigate = useNavigate()
 
     const signOut = () => {
@@ -13,7 +12,9 @@ export const Signout = () => {
 
     return (
         <>
-            <Button variant="outlined">Выйти</Button>
+            <Button onClick={signOut} variant="outlined">Выйти</Button>
         </>
     )
 }
+
+export default Signout

@@ -1,14 +1,55 @@
-import { Auth } from "@supabase/auth-ui-react"
 import supabase from "../../supabaseClient"
-import { ThemeSupa } from '@supabase/auth-ui-shared'
 import './Login.css'
+import { Box, TextField, Button } from "@mui/material";
+import { useForm } from "react-hook-form";
 
 
 export const Login = () => {
 
+    const {
+        register,
+        formState: { errors },
+        handleSubmit,
+    } = useForm();
+
+    const onSubmitHandler = values => {
+        const signIn = async () => {
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: values.email,
+                password: values.password,
+            })
+        }
+        signIn()
+    };
+
     return (
-        <div className="conteiner">
-            <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }}/>
-        </div>
+        <Box
+            component='form'
+            noValidate
+            autoComplete='off'
+            onSubmit={handleSubmit(onSubmitHandler)}
+        >
+            <TextField
+                sx={{ mb: 2 }}
+                label='Email'
+                fullWidth
+                required
+                type='email'
+                error={!!errors['email']}
+                helperText={errors['email'] ? errors['email'].message : ''}
+                {...register('email')}
+            />
+            <TextField
+                sx={{ mb: 2 }}
+                label='Password'
+                fullWidth
+                required
+                type='password'
+                error={!!errors['password']}
+                helperText={errors['password'] ? errors['password'].message : ''}
+                {...register('password')}
+            />
+            <Button type="submit">Войти</Button>
+        </Box>
     )
 }

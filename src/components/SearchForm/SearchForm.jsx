@@ -5,19 +5,21 @@ import { useDebounce } from "../../hooks/debounce";
 
 const SearchForm = () => {
   
-  const [search, setSearch] = useState('')
-  const debounce = useDebounce(search)
+  const [searchInput, setSearchInput] = useState('')
+  const debounce = useDebounce(searchInput)
 
   const handleChangeInput = (event) => {
-    setSearch(event.target.value)
+    setSearchInput(event.target.value)
   }
 
-  useEffect(() => {
-    if(search) {
-      fetchSearchKinopoisk(search)
-      
-    }
-  }, [])
+  // useEffect(() => {
+  //   if(debounce.length >= 3) {
+  //     fetchSearchKinopoisk(debounce)
+  //     .then((data) => {
+  //       setMovies(data.docs);
+  //     })
+  //   }
+  // }, [debounce])
 
   return (
     <>
