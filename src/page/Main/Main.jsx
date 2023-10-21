@@ -3,58 +3,66 @@ import CardList from "../../components/CardList/CardList";
 import { fetchKinopoisk, fetchSearchKinopoisk } from "../../api/api";
 // import SearchForm from "../../components/SearchForm/SearchForm";
 import { TextField } from "@mui/material";
-import { useDebounce } from "../../hooks/debounce"
-
+import { useDebounce } from "../../hooks/debounce";
+import { useDispatch, useSelector } from "react-redux";
+import { getMovies } from "../../store/actions";
 
 const Main = () => {
-  const [movies, setMovies] = useState([]);
-  const [search, setSearch] = useState('')
-  const [currentPage, setCurrentPage] = useState(1)
-  const [fetching, setFetching] = useState(true)
-  const debounce = useDebounce(search)
+  // const [movies, setMovies] = useState([]);
+  const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [fetching, setFetching] = useState(true);
+  const debounce = useDebounce(search);
 
-
-  const handleChangeInput = (event) => {
-    setSearch(event.target.value)
-  }
-
-  const scrollHandler = (event) => {
-    if (event.target.documentElement.scrollHeight - (event.target.documentElement.scrollTop + window.innerHeight)< 100) {
-      setFetching(true)
-    }
-  }
+  const dispatch = useDispatch();
+  const movies = useSelector((state) => state.movies);
 
   useEffect(() => {
-    if (debounce.length >= 3) {
-      fetchSearchKinopoisk(debounce)
-        .then((data) => {
-          setMovies(data.docs);
-        })
-    } if (fetching) {
-      fetchKinopoisk(currentPage)
-        .then((data) => {
-          console.log(data)
-          setMovies([...movies, ...data.docs]);
-          setCurrentPage(prevState => prevState + 1)
-        })
-        .finally(() => setFetching(false))
-        .catch((error) => {
-          console.error("Произошла ошибка:", error);
-        });
-    }
-  }, [currentPage, debounce, fetching, movies])
+    getMovies(dispatch);
+    console.log("GET MOVIES");
+  }, [dispatch]);
 
-  useEffect(() => {
-    document.addEventListener("scroll", scrollHandler)
-    return function () {
-      document.removeEventListener("scroll", scrollHandler)
-    }
-  }, [])
+  // const handleChangeInput = (event) => {
+  //   setSearch(event.target.value)
+  // }
+
+  // const scrollHandler = (event) => {
+  //   if (event.target.documentElement.scrollHeight - (event.target.documentElement.scrollTop + window.innerHeight)< 100) {
+  //     setFetching(true)
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   if (debounce.length >= 3) {
+  //     fetchSearchKinopoisk(debounce)
+  //       .then((data) => {
+  //         setMovies(data.docs);
+  //       })
+  //   } if (fetching) {
+  //     fetchKinopoisk(currentPage)
+  //       .then((data) => {
+  //         console.log(data)
+  //         setMovies([...movies, ...data.docs]);
+  //         setCurrentPage(prevState => prevState + 1)
+  //       })
+  //       .finally(() => setFetching(false))
+  //       .catch((error) => {
+  //         console.error("Произошла ошибка:", error);
+  //       });
+  //   }
+  // }, [currentPage, debounce, fetching, movies])
+
+  // useEffect(() => {
+  //   document.addEventListener("scroll", scrollHandler)
+  //   return function () {
+  //     document.removeEventListener("scroll", scrollHandler)
+  //   }
+  // }, [])
 
   return (
     <section>
-      <TextField type="text" label="Поиск" variant="outlined" onChange={handleChangeInput} />
-      {/* <SearchForm /> Пока не придумал, как вывести всю логику в отдельный компонент */} 
+      {/* <TextField type="text" label="Поиск" variant="outlined" onChange={handleChangeInput} /> */}
+      {/* <SearchForm /> Пока не придумал, как вывести всю логику в отдельный компонент */}
       <CardList movies={movies} />
     </section>
   );
