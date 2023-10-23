@@ -1,11 +1,13 @@
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
-import IconButton from "@mui/material/IconButton";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
 import MoreButton from "../MoreButton/MoreButton";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import IconButton from "@mui/material/IconButton";
+import AddMovie from "../AddMovie/AddMovie";
 
 const CardList = ({ movies }) => {
+  console.log("1234567", movies)
   if (movies.length > 0) {
     return (
       <ImageList cols={3}>
@@ -30,6 +32,7 @@ const CardList = ({ movies }) => {
                 <IconButton
                   sx={{ color: "black" }}
                   aria-label={`star ${item.title}`}
+                  onClick={() => AddMovie(item.id)}
                 >
                   <StarBorderIcon />
                 </IconButton>

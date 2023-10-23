@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import CardList from "../../components/CardList/CardList";
 import { fetchKinopoisk, fetchSearchKinopoisk } from "../../api/api";
-// import SearchForm from "../../components/SearchForm/SearchForm";
-import { TextField } from "@mui/material";
-import { useDebounce } from "../../hooks/debounce"
+import Signout from "../../components/Signout/Signout";
+import { TextField, CircularProgress } from "@mui/material";
+import { Login } from '../Login/Login'
+import { useDebounce } from "../../hooks/debounce";
 
+const MemoizedCardList = React.memo(CardList);
 
 const Main = () => {
   const [movies, setMovies] = useState([]);
@@ -14,35 +16,51 @@ const Main = () => {
   const debounce = useDebounce(search)
 
 
-  const handleChangeInput = (event) => {
+  const handleChangeInput = useCallback((event) => {
+    console.log(event.target.value)
     setSearch(event.target.value)
-  }
+  }, [])
 
-  const scrollHandler = (event) => {
-    if (event.target.documentElement.scrollHeight - (event.target.documentElement.scrollTop + window.innerHeight)< 100) {
+  const scrollHandler = useCallback((event) => {
+    if (event.target.documentElement.scrollHeight - (event.target.documentElement.scrollTop + window.innerHeight) < 100) {
       setFetching(true)
     }
-  }
+  }, [])
 
   useEffect(() => {
-    if (debounce.length >= 3) {
-      fetchSearchKinopoisk(debounce)
-        .then((data) => {
-          setMovies(data.docs);
-        })
-    } if (fetching) {
+    if (fetching) {
       fetchKinopoisk(currentPage)
         .then((data) => {
           console.log(data)
-          setMovies([...movies, ...data.docs]);
-          setCurrentPage(prevState => prevState + 1)
+          setMovies((prevMovies) => [...prevMovies, ...data.docs]);
+          setCurrentPage((prevState) => prevState + 1)
         })
         .finally(() => setFetching(false))
         .catch((error) => {
           console.error("Произошла ошибка:", error);
         });
     }
-  }, [currentPage, debounce, fetching, movies])
+  }, [fetching, currentPage])
+
+  useEffect(() => {
+    if (debounce) {
+      fetchSearchKinopoisk(search)
+        .then((data) => {
+          setMovies((prevMovies) => {
+            if (search === '') {
+              return prevMovies         //Попробую прокидывать начальные данные с фильмами в redux и подтягивать сюда, дабы не делать лишних запросов
+            } else {
+              return data.docs
+            }
+          });
+        })
+        .catch((error) => {
+          console.error("Произошла ошибка при поиске фильмов:", error);
+        });
+    } else {
+      setMovies([])
+    }
+  }, [debounce])
 
   useEffect(() => {
     document.addEventListener("scroll", scrollHandler)
@@ -53,9 +71,12 @@ const Main = () => {
 
   return (
     <section>
-      <TextField type="text" label="Поиск" variant="outlined" onChange={handleChangeInput} />
-      {/* <SearchForm /> Пока не придумал, как вывести всю логику в отдельный компонент */} 
-      <CardList movies={movies} />
+      <Login />
+      <Signout />
+      <TextField type="text" label="Поиск" variant="outlined" onChange={handleChangeInput} value={search} />
+      {search && search.length >= 3 && movies.length === 0 && <p>Ничего не найдено</p>}
+      <MemoizedCardList movies={movies} />
+      {fetching && <CircularProgress />}
     </section>
   );
 };

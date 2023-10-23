@@ -1,5 +1,4 @@
 import supabase from "../../supabaseClient"
-import './Login.css'
 import { Box, TextField, Button } from "@mui/material";
 import { useForm } from "react-hook-form";
 
