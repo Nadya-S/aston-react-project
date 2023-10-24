@@ -1,9 +1,9 @@
 import { Box, TextField, Button } from "@mui/material";
-import { zodResolver } from '@hookform/resolvers/zod';
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { registerSchema } from "../../utils/validationForm";
 import supabase from "../../supabaseClient";
-
+import MyButton from "../../components/UI/button/MyButton";
 
 const Registration = () => {
   const {
@@ -12,8 +12,7 @@ const Registration = () => {
     handleSubmit,
   } = useForm({ resolver: zodResolver(registerSchema) });
 
-
-  const onSubmitHandler = values => {
+  const onSubmitHandler = (values) => {
     const registerNewUser = async () => {
       const { data, error } = await supabase.auth.signUp({
         email: values.email,
@@ -21,54 +20,55 @@ const Registration = () => {
         options: {
           data: {
             name: values.name,
-          }
-        }
-      })
-    }
-    registerNewUser()
-    console.log(values)
+          },
+        },
+      });
+    };
+    registerNewUser();
+    console.log(values);
   };
 
   return (
     <Box
-      component='form'
+      component="form"
+      sx={{ marginTop: 20 }}
       noValidate
-      autoComplete='off'
+      autoComplete="off"
       onSubmit={handleSubmit(onSubmitHandler)}
     >
       <TextField
         sx={{ mb: 2 }}
-        label='Name'
+        label="Name"
         fullWidth
         required
-        type='name'
-        error={!!errors['name']}
-        helperText={errors['name'] ? errors['name'].message : ''}
-        {...register('name')}
+        type="name"
+        error={!!errors["name"]}
+        helperText={errors["name"] ? errors["name"].message : ""}
+        {...register("name")}
       />
       <TextField
         sx={{ mb: 2 }}
-        label='Email'
+        label="Email"
         fullWidth
         required
-        type='email'
-        error={!!errors['email']}
-        helperText={errors['email'] ? errors['email'].message : ''}
-        {...register('email')}
+        type="email"
+        error={!!errors["email"]}
+        helperText={errors["email"] ? errors["email"].message : ""}
+        {...register("email")}
       />
       <TextField
         sx={{ mb: 2 }}
-        label='Password'
+        label="Password"
         fullWidth
         required
-        type='password'
-        error={!!errors['password']}
-        helperText={errors['password'] ? errors['password'].message : ''}
-        {...register('password')}
+        type="password"
+        error={!!errors["password"]}
+        helperText={errors["password"] ? errors["password"].message : ""}
+        {...register("password")}
       />
-      <Button type='submit'>Зарегистрироваться</Button>
+      <MyButton type="submit">ЗАРЕГИСТРИРОВАТЬСЯ</MyButton>
     </Box>
-  )
+  );
 };
 
 export default Registration;
