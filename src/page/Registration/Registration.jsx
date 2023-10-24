@@ -1,31 +1,40 @@
-import { Box, TextField, Button } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { registerSchema } from "../../utils/validationForm";
 import supabase from "../../supabaseClient";
 import MyButton from "../../components/UI/button/MyButton";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setLoggedInAction, setUser } from "../../store/movieReducer";
 
 const Registration = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     register,
     formState: { errors, isSubmitSuccessful },
     handleSubmit,
   } = useForm({ resolver: zodResolver(registerSchema) });
 
-  const onSubmitHandler = (values) => {
-    const registerNewUser = async () => {
-      const { data, error } = await supabase.auth.signUp({
-        email: values.email,
-        password: values.password,
-        options: {
-          data: {
-            name: values.name,
-          },
+  const registerNewUser = async (values) => {
+    const { data, error } = await supabase.auth.signUp({
+      email: values.email,
+      password: values.password,
+      options: {
+        data: {
+          name: values.name,
         },
-      });
-    };
-    registerNewUser();
+      },
+    });
+  };
+
+  const onSubmitHandler = (values) => {
+    dispatch(setLoggedInAction(true));
+    registerNewUser(values);
+    dispatch(setUser(values.name));
     console.log(values);
+    navigate("/");
   };
 
   return (

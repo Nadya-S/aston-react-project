@@ -10,14 +10,15 @@ import Movie from "./page/Movie/Movie";
 import Header from "./components/Header/Header";
 import Navigation from "./components/Navigation/Navigation";
 import AuthButtons from "./components/AuthButtons/AuthButtons";
+import { useSelector } from "react-redux";
 
 function App() {
+  const loggedIn = useSelector((state) => state.loggedIn);
+  const user = useSelector((state) => state.user);
+
   return (
     <div className="App">
-      <Header>
-        <Navigation />
-        {/* {<AuthButtons />} */}
-      </Header>
+      <Header>{loggedIn ? <Navigation user={user} /> : <AuthButtons />}</Header>
       <Routes>
         <Route exact path={routes.MAIN_PAGE} element={<Main />} />
         <Route path={routes.MOVIE_PAGE} element={<Movie />} />

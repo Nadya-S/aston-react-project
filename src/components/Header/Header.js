@@ -8,7 +8,7 @@ const Header = ({ children }) => {
     <section className="header">
       <div className="header__image_container">
         <Link to="/">
-          <img className="header__image" src={logo} />
+          <img className="header__image" src={logo} alt="logo" />
         </Link>
       </div>
       <div className="header__navigation">{children}</div>

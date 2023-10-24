@@ -1,10 +1,16 @@
+import { useDispatch } from "react-redux";
 import MyButton from "../../components/UI/button/MyButton";
 import supabase from "../../supabaseClient";
 import "./Login.css";
 import { Box, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
+import { setLoggedInAction, setUser } from "../../store/movieReducer";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const {
     register,
     formState: { errors },
@@ -19,6 +25,9 @@ export const Login = () => {
       });
     };
     signIn();
+    dispatch(setLoggedInAction(true));
+    dispatch(setUser(values.email)); // не знаю как вытянуть имя из supabase
+    navigate("/");
   };
 
   return (

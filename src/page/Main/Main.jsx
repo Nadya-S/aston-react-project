@@ -15,11 +15,12 @@ const Main = () => {
   const debounce = useDebounce(search);
 
   const dispatch = useDispatch();
+  const loggedIn = useSelector((state) => state.loggedIn);
   const movies = useSelector((state) => state.movies);
 
   useEffect(() => {
     getMovies(dispatch);
-    console.log("GET MOVIES");
+    console.log("GET MOVIES", loggedIn);
   }, [dispatch]);
 
   // const handleChangeInput = (event) => {
