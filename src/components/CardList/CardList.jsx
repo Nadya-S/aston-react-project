@@ -8,7 +8,7 @@ import MoreButton from "../MoreButton/MoreButton";
 const CardList = ({ movies }) => {
   if (movies.length > 0) {
     return (
-      <ImageList cols={3}>
+      <ImageList cols={4} sx={{ width: "90vw", maxWidth: 1280 }}>
         {movies.map((item) => (
           <ImageListItem key={item.id}>
             <img
