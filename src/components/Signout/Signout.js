@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button'
 import { useNavigate } from "react-router-dom"
-import supabase from '../../supabaseClient'
+import supabase from '../../supabase/supabaseClient'
 
 const Signout = () => {
     const navigate = useNavigate()

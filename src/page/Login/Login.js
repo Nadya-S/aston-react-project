@@ -1,4 +1,4 @@
-import supabase from "../../supabaseClient"
+import supabase from "../../supabase/supabaseClient";
 import { Box, TextField, Button } from "@mui/material";
 import { useForm } from "react-hook-form";
 

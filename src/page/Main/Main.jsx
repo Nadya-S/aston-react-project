@@ -1,9 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import CardList from "../../components/CardList/CardList";
 import { fetchKinopoisk, fetchSearchKinopoisk } from "../../api/api";
-import Signout from "../../components/Signout/Signout";
 import { TextField, CircularProgress } from "@mui/material";
-import { Login } from '../Login/Login'
 import { useDebounce } from "../../hooks/debounce";
 
 const MemoizedCardList = React.memo(CardList);
@@ -14,7 +12,6 @@ const Main = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [fetching, setFetching] = useState(true)
   const debounce = useDebounce(search)
-
 
   const handleChangeInput = useCallback((event) => {
     console.log(event.target.value)
@@ -48,7 +45,8 @@ const Main = () => {
         .then((data) => {
           setMovies((prevMovies) => {
             if (search === '') {
-              return prevMovies         //Попробую прокидывать начальные данные с фильмами в redux и подтягивать сюда, дабы не делать лишних запросов
+              console.log('prevMovies', prevMovies);
+              return prevMovies         //TODO
             } else {
               return data.docs
             }
@@ -71,12 +69,10 @@ const Main = () => {
 
   return (
     <section>
-      <Login />
-      <Signout />
       <TextField type="text" label="Поиск" variant="outlined" onChange={handleChangeInput} value={search} />
       {search && search.length >= 3 && movies.length === 0 && <p>Ничего не найдено</p>}
-      <MemoizedCardList movies={movies} />
       {fetching && <CircularProgress />}
+      <MemoizedCardList movies={movies} />
     </section>
   );
 };

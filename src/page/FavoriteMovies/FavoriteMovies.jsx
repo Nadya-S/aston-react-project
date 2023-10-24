@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import CardList from "../../components/CardList/CardList";
-import supabase from "../../supabaseClient";
+import supabase from "../../supabase/supabaseClient";
 import { getFavorites } from "../../api/api";
 
 
@@ -14,57 +14,58 @@ const FavoriteMovies = () => {
       const { data: { user } } = await supabase.auth.getUser()
       const { data: favorite, error } = await supabase
         .from('favorites')
-        .select('movie')
+        .select('*')
         .eq('user_id', user.id)
 
-      setDataSupabase(favorite)
-      console.log(user)
+      const favoriteWithId = favorite.map((item) => ({
+        ...item,
+        supaId: item.id
+      }))
+
+      setDataSupabase(favoriteWithId)
     }
     getDataSupabases()
   }, [])
 
-  useEffect(() =>{
-    if(dataSupabase.length > 0) {
+  useEffect(() => {
+    if (dataSupabase.length > 0) {
       const promises = dataSupabase.map((item) => {
         const movieId = item.movie
         return getFavorites(String(movieId))
+          .then((data) => ({
+            ...item,
+            favoritesData: data.docs
+          }))
       })
 
       Promise.all(promises)
-      .then((results) => {
-        const movies = results.flatMap((data) => data.docs)
-        setFavoriteMovies(movies)
-      })
-      .catch((error) => {
-        console.error("Произошла ошибка:", error);
-      })
+        .then((results) => {
+          const movies = results.flatMap((item) => {
+            const { favoritesData, ...rest } = item;
+            return favoritesData.map((data) => ({
+              ...rest,
+              supaId: item.supaId,
+              ...data
+            }))
+          })
+          setFavoriteMovies(movies)
+        })
+        .catch((error) => {
+          console.error("Произошла ошибка:", error);
+        })
     }
   }, [dataSupabase])
 
   return (
     <section>
-      <h2>hello</h2>
+      <h1>Избранное</h1>
       {
-        favoriteMovies.length > 0 ? <CardList movies={favoriteMovies}/>
-        : null
+        favoriteMovies.length > 0
+          ? <CardList movies={favoriteMovies} />
+          : <div>Фильмы не найдены</div>
       }
     </section>
   );
 };
 
 export default FavoriteMovies;
-
-
-// if (dataSupabase) {
-//   for (var i = 0; i < dataSupabase.length; i++) {
-//     var movieId = dataSupabase[i].movie;
-//     getFavorites(String(movieId))
-//       .then((data) => {
-//         console.log('1331',data)
-//         favoriteMovies.push(...data.docs)
-//       })
-//       .catch((error) => {
-//         console.error("Произошла ошибка:", error);
-//       });
-//   }
-// }
