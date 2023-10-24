@@ -7,10 +7,17 @@ import FavoriteMovies from "./page/FavoriteMovies/FavoriteMovies";
 import History from "./page/History/History";
 import { routes } from "./utils/routes";
 import Movie from "./page/Movie/Movie";
+import Header from "./components/Header/Header";
+import Navigation from "./components/Navigation/Navigation";
+import AuthButtons from "./components/AuthButtons/AuthButtons";
 
 function App() {
   return (
     <div className="App">
+      <Header>
+        <Navigation />
+        {/* {<AuthButtons />} */}
+      </Header>
       <Routes>
         <Route exact path={routes.MAIN_PAGE} element={<Main />} />
         <Route path={routes.MOVIE_PAGE} element={<Movie />} />
