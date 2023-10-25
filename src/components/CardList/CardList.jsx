@@ -7,11 +7,12 @@ import IconButton from "@mui/material/IconButton";
 import UpdateFavorites from "../../supabase/UpdateFavorites";
 import { useEffect, useState } from "react";
 import supabase from "../../supabase/supabaseClient";
+import { CircularProgress } from "@mui/material";
 
 const CardList = ({ movies }) => {
 
   const [favoriteMovies, setFavoriteMovies] = useState([])
-  
+
   useEffect(() => {
     const checkFavorites = async () => {
       let { data: favorites, error } = await supabase
@@ -27,11 +28,10 @@ const CardList = ({ movies }) => {
     return favoriteMovies.some((favorite) => favorite.movie === movieId)
   }
 
-  const handleUpdateFavorites = async (movieId, supaId) => {
+  const handleUpdateFavorites = async (movieId) => {
     const favorite = favoriteMovies.find((favorite) => favorite.movie === movieId)
 
     if (favorite) {
-      console.log('favorite.id', favorite.id)
       UpdateFavorites(movieId, favorite.id, favoriteMovies, setFavoriteMovies);
     } else {
       UpdateFavorites(movieId, null, favoriteMovies, setFavoriteMovies);
@@ -46,7 +46,6 @@ const CardList = ({ movies }) => {
     }
   }
 
-  console.log("1234567", movies)
   if (movies.length > 0) {
     return (
       <ImageList cols={3}>
@@ -82,7 +81,9 @@ const CardList = ({ movies }) => {
       </ImageList>
     );
   } else {
-    return <div>Фильмы не найдены</div>;
+    return <div>
+      <CircularProgress sx={{ color: '#db7e3b' }} />
+    </div>;
   }
 };
 

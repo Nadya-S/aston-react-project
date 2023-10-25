@@ -1,22 +1,19 @@
 import React, { useEffect, useState, useCallback } from "react";
 import CardList from "../../components/CardList/CardList";
-import { fetchKinopoisk, fetchSearchKinopoisk } from "../../api/api";
-import { TextField, CircularProgress } from "@mui/material";
-import { useDebounce } from "../../hooks/debounce";
+import { fetchKinopoisk } from "../../api/api";
+import SearchForm from "../../components/SearchForm/SearchForm";
 
 const MemoizedCardList = React.memo(CardList);
 
 const Main = () => {
   const [movies, setMovies] = useState([]);
-  const [search, setSearch] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
   const [fetching, setFetching] = useState(true)
-  const debounce = useDebounce(search)
+  
 
-  const handleChangeInput = useCallback((event) => {
-    console.log(event.target.value)
-    setSearch(event.target.value)
-  }, [])
+  const handleMoviesChange = useCallback((newMovies) => {
+    setMovies(newMovies)
+  }, [movies])
 
   const scrollHandler = useCallback((event) => {
     if (event.target.documentElement.scrollHeight - (event.target.documentElement.scrollTop + window.innerHeight) < 100) {
@@ -28,7 +25,6 @@ const Main = () => {
     if (fetching) {
       fetchKinopoisk(currentPage)
         .then((data) => {
-          console.log(data)
           setMovies((prevMovies) => [...prevMovies, ...data.docs]);
           setCurrentPage((prevState) => prevState + 1)
         })
@@ -40,27 +36,6 @@ const Main = () => {
   }, [fetching, currentPage])
 
   useEffect(() => {
-    if (debounce) {
-      fetchSearchKinopoisk(search)
-        .then((data) => {
-          setMovies((prevMovies) => {
-            if (search === '') {
-              console.log('prevMovies', prevMovies);
-              return prevMovies         //TODO
-            } else {
-              return data.docs
-            }
-          });
-        })
-        .catch((error) => {
-          console.error("Произошла ошибка при поиске фильмов:", error);
-        });
-    } else {
-      setMovies([])
-    }
-  }, [debounce])
-
-  useEffect(() => {
     document.addEventListener("scroll", scrollHandler)
     return function () {
       document.removeEventListener("scroll", scrollHandler)
@@ -69,9 +44,7 @@ const Main = () => {
 
   return (
     <section>
-      <TextField type="text" label="Поиск" variant="outlined" onChange={handleChangeInput} value={search} />
-      {search && search.length >= 3 && movies.length === 0 && <p>Ничего не найдено</p>}
-      {fetching && <CircularProgress />}
+      <SearchForm onMoviesChange={handleMoviesChange}/>
       <MemoizedCardList movies={movies} />
     </section>
   );

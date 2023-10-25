@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import CardList from "../../components/CardList/CardList";
 import supabase from "../../supabase/supabaseClient";
 import { getFavorites } from "../../api/api";
+import UpdateFavorites from "../../supabase/UpdateFavorites";
 
 
 const FavoriteMovies = () => {
@@ -56,13 +57,17 @@ const FavoriteMovies = () => {
     }
   }, [dataSupabase])
 
+  const handleUpdateFavorites = async(movieId, supaId) => {
+    await UpdateFavorites(movieId, supaId, favoriteMovies, setFavoriteMovies)
+  }
+
   return (
     <section>
       <h1>Избранное</h1>
       {
         favoriteMovies.length > 0
-          ? <CardList movies={favoriteMovies} />
-          : <div>Фильмы не найдены</div>
+          ? <CardList movies={favoriteMovies} onUpdateFavorites={handleUpdateFavorites} />
+          : <div>Список пуст</div>
       }
     </section>
   );
