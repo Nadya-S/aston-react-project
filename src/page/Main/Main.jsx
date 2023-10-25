@@ -7,12 +7,11 @@ import { getMovies } from "../../store/actions";
 const MemoizedCardList = React.memo(CardList);
 
 const Main = () => {
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState([]); // настроить через redux
   const [currentPage, setCurrentPage] = useState(1);
   const [fetching, setFetching] = useState(true);
   const dispatch = useDispatch();
-  const loggedIn = useSelector((state) => state.loggedIn);
-  //const movies = useSelector((state) => state.movies);
+  // const movies = useSelector((state) => state.movies);
 
   const handleMoviesChange = useCallback(
     (newMovies) => {

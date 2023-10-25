@@ -1,7 +1,6 @@
 import { useDispatch } from "react-redux";
 import MyButton from "../../components/UI/button/MyButton";
-import supabase from "../../supabaseClient";
-import "./Login.css";
+import supabase from "../../supabase/supabaseClient";
 import { Box, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { setLoggedInAction, setUser } from "../../store/movieReducer";
