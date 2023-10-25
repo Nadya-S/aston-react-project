@@ -1,6 +1,9 @@
 .card {
   display: flex;
+  justify-content: space-between;
   margin-top: 30px;
+  width: 90vw;
+  max-width: 1280px;
 }
 
 .card__title_container {
@@ -15,9 +18,5 @@
 }
 
 .card__description_container {
-  margin: 0 30px;
-}
-
-.card__description {
-  width: 50vw;
+  padding: 0 30px;
 }

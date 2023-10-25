@@ -1,20 +1,25 @@
-import Button from '@mui/material/Button'
-import { useNavigate } from "react-router-dom"
-import supabase from '../../supabase/supabaseClient'
+import { useNavigate } from "react-router-dom";
+import supabase from "../../supabase/supabaseClient";
+import MyButton from "../UI/button/MyButton";
+import { useDispatch } from "react-redux";
+import { setLoggedInAction } from "../../store/movieReducer";
 
 const Signout = () => {
-    const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const signOut = () => {
-        supabase.auth.signOut()
-        navigate('/')
-    }
+  const signOut = () => {
+    supabase.auth.signOut();
+    dispatch(setLoggedInAction(false));
 
-    return (
-        <>
-            <Button onClick={signOut} variant="outlined">Выйти</Button>
-        </>
-    )
-}
+    navigate("/");
+  };
 
-export default Signout
+  return (
+    <>
+      <MyButton onClick={signOut}>Выйти</MyButton>
+    </>
+  );
+};
+
+export default Signout;
