@@ -2,8 +2,7 @@ import { Box, TextField, Button } from "@mui/material";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from "react-hook-form";
 import { registerSchema } from "../../utils/validationForm";
-import supabase from "../../supabaseClient";
-
+import supabase from "../../supabase/supabaseClient";
 
 const Registration = () => {
   const {

@@ -1,29 +1,34 @@
 import { TextField } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { fetchSearchKinopoisk } from "../../api/api";
 import { useDebounce } from "../../hooks/debounce";
 
-const SearchForm = () => {
+const SearchForm = ({ onMoviesChange }) => {
   
-  const [searchInput, setSearchInput] = useState('')
-  const debounce = useDebounce(searchInput)
+  const [search, setSearch] = useState('')
+  const debounce = useDebounce(search)
 
-  const handleChangeInput = (event) => {
-    setSearchInput(event.target.value)
-  }
+  const handleChangeInput = useCallback((event) => {
+    setSearch(event.target.value)
+  }, [])
 
-  // useEffect(() => {
-  //   if(debounce.length >= 3) {
-  //     fetchSearchKinopoisk(debounce)
-  //     .then((data) => {
-  //       setMovies(data.docs);
-  //     })
-  //   }
-  // }, [debounce])
+  useEffect(() => {
+    if (debounce) {
+      fetchSearchKinopoisk(search)
+        .then((data) => {
+          onMoviesChange(data.docs);
+        })
+        .catch((error) => {
+          console.error("Произошла ошибка при поиске фильмов:", error);
+        });
+    } else {
+      onMoviesChange([])
+    }
+  }, [debounce])
 
   return (
     <>
-      <TextField id="outlined-basic" label="Поиск" variant="outlined" onChange={handleChangeInput}/>
+      <TextField type="search" label="Поиск" variant="outlined" onChange={handleChangeInput} value={search}/>
     </>
   )
 };
