@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import supabase from "../../supabaseClient";
+import supabase from "../../supabase/supabaseClient";
 import MyButton from "../UI/button/MyButton";
 import { useDispatch } from "react-redux";
 import { setLoggedInAction } from "../../store/movieReducer";

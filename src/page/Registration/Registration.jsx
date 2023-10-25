@@ -2,7 +2,7 @@ import { Box, TextField } from "@mui/material";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { registerSchema } from "../../utils/validationForm";
-import supabase from "../../supabaseClient";
+import supabase from "../../supabase/supabaseClient";
 import MyButton from "../../components/UI/button/MyButton";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
