@@ -11,6 +11,7 @@ import Header from "./components/Header/Header";
 import Navigation from "./components/Navigation/Navigation";
 import AuthButtons from "./components/AuthButtons/AuthButtons";
 import { useSelector } from "react-redux";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 function App() {
   const user = useSelector((state) => state.user);
@@ -25,9 +26,20 @@ function App() {
         <Route path={routes.REGISTRATION_PAGE} element={<Registration />} />
         <Route
           path={routes.FAVORITE_MOVIES_PAGE}
-          element={<FavoriteMovies />}
+          element={
+            <ProtectedRoute user={user}>
+              <FavoriteMovies />
+            </ProtectedRoute>
+          }
         />
-        <Route path={routes.HISTORY_PAGE} element={<History />} />
+        <Route
+          path={routes.HISTORY_PAGE}
+          element={
+            <ProtectedRoute user={user}>
+              <History />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>

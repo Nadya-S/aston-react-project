@@ -8,9 +8,11 @@ import UpdateFavorites from "../../supabase/UpdateFavorites";
 import { useEffect, useState } from "react";
 import supabase from "../../supabase/supabaseClient";
 import { CircularProgress } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const CardList = ({ movies }) => {
   const [favoriteMovies, setFavoriteMovies] = useState([]);
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     const checkFavorites = async () => {
@@ -68,17 +70,19 @@ const CardList = ({ movies }) => {
               subtitle={<span>Жанр: {item.genres[0].name}</span>}
               position="below"
               actionIcon={
-                <IconButton
-                  sx={
-                    updateIconButtonSx(item.id)
-                      ? { color: "#db7e3b" }
-                      : { color: "#000000" }
-                  }
-                  aria-label={`star ${item.title}`}
-                  onClick={() => handleUpdateFavorites(item.id, item.supaId)}
-                >
-                  <StarIcon />
-                </IconButton>
+                user && (
+                  <IconButton
+                    sx={
+                      updateIconButtonSx(item.id)
+                        ? { color: "#db7e3b" }
+                        : { color: "#000000" }
+                    }
+                    aria-label={`star ${item.title}`}
+                    onClick={() => handleUpdateFavorites(item.id, item.supaId)}
+                  >
+                    <StarIcon />
+                  </IconButton>
+                )
               }
             />
           </ImageListItem>
