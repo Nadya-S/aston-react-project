@@ -13,12 +13,11 @@ import AuthButtons from "./components/AuthButtons/AuthButtons";
 import { useSelector } from "react-redux";
 
 function App() {
-  const loggedIn = useSelector((state) => state.loggedIn);
   const user = useSelector((state) => state.user);
 
   return (
     <div className="App">
-      <Header>{loggedIn ? <Navigation user={user} /> : <AuthButtons />}</Header>
+      <Header>{user ? <Navigation user={user} /> : <AuthButtons />}</Header>
       <Routes>
         <Route exact path={routes.MAIN_PAGE} element={<Main />} />
         <Route path={routes.MOVIE_PAGE} element={<Movie />} />

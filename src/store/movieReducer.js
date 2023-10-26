@@ -1,15 +1,15 @@
+import MyLocalStorage from "../utils/MyLocalStorage";
+
 const defaultState = {
   movies: [],
   currentMovie: null,
-  loggedIn: false,
-  user: "",
+  user: MyLocalStorage.getItem("user"),
   isLoading: false,
   error: false,
 };
 
 const GET_MOVIES = "GET_MOVIES";
 const GET_CURRENT_MOVIE = "GET_CURRENT_MOVIE";
-const SET_LOGGED_IN = "LOGGED_IN";
 const SET_USER = "SET_USER";
 const SET_IS_LOADING = "SET_IS_LOADING";
 const SET_ERROR = "SET_ERROR";
@@ -20,8 +20,6 @@ export const movieReducer = (state = defaultState, action) => {
       return { ...state, movies: action.payload };
     case GET_CURRENT_MOVIE:
       return { ...state, currentMovie: action.payload };
-    case SET_LOGGED_IN:
-      return { ...state, loggedIn: action.payload };
     case SET_USER:
       return { ...state, user: action.payload };
     case SET_IS_LOADING:
@@ -36,10 +34,6 @@ export const movieReducer = (state = defaultState, action) => {
 export const getMoviesAction = (payload) => ({ type: GET_MOVIES, payload });
 export const getCurrentMovieAction = (payload) => ({
   type: GET_CURRENT_MOVIE,
-  payload,
-});
-export const setLoggedInAction = (payload) => ({
-  type: SET_LOGGED_IN,
   payload,
 });
 export const setUser = (payload) => ({ type: SET_USER, payload });
