@@ -13,6 +13,7 @@ const GET_MOVIES = "GET_MOVIES";
 const GET_CURRENT_MOVIE = "GET_CURRENT_MOVIE";
 const SET_USER = "SET_USER";
 const SET_HISTORY = "SET_HISTORY";
+const CLEAR_HISTORY = "CLEAR_HISTORY";
 const SET_IS_LOADING = "SET_IS_LOADING";
 const SET_ERROR = "SET_ERROR";
 
@@ -26,6 +27,8 @@ export const movieReducer = (state = defaultState, action) => {
       return { ...state, user: action.payload };
     case SET_HISTORY:
       return { ...state, history: [...state.history, action.payload] };
+    case CLEAR_HISTORY:
+      return { ...state, history: [] };
     case SET_IS_LOADING:
       return { ...state, isLoading: action.payload };
     case SET_ERROR:
@@ -42,6 +45,7 @@ export const getCurrentMovieAction = (payload) => ({
 });
 export const setUserAction = (payload) => ({ type: SET_USER, payload });
 export const setHistoryAction = (payload) => ({ type: SET_HISTORY, payload });
+export const clearHistoryAction = () => ({ type: CLEAR_HISTORY });
 export const setIsLoadingAction = (payload) => ({
   type: SET_IS_LOADING,
   payload,
