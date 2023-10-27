@@ -10,6 +10,7 @@ import supabase from "../../supabase/supabaseClient";
 import { CircularProgress } from "@mui/material";
 import { useSelector } from "react-redux";
 import MyLocalStorage from "../../utils/MyLocalStorage";
+import Poster from "../Poster/Poster";
 
 const CardList = ({ movies }) => {
   const [favoriteMovies, setFavoriteMovies] = useState([]);
@@ -63,12 +64,17 @@ const CardList = ({ movies }) => {
       <ImageList cols={4} sx={{ width: "90vw", maxWidth: 1280 }}>
         {movies.map((item) => (
           <ImageListItem key={item.id} sx={{ width: "22vw", maxWidth: 308 }}>
-            <img
-              srcSet={`${item.poster?.previewUrl}`}
-              src={`${item.poster?.previewUrl}`}
-              alt={item.title}
-              loading="lazy"
-            />
+            {item.poster ? (
+              <img
+                srcSet={`${item.poster?.previewUrl}`}
+                src={`${item.poster?.previewUrl}`}
+                alt={item.name}
+                loading="lazy"
+              />
+            ) : (
+              <Poster title={item.name} />
+            )}
+
             <MoreButton id={item.id} />
             <ImageListItemBar
               title={
