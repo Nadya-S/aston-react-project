@@ -9,10 +9,19 @@ import { useEffect, useState } from "react";
 import supabase from "../../supabase/supabaseClient";
 import { CircularProgress } from "@mui/material";
 import { useSelector } from "react-redux";
+import MyLocalStorage from "../../utils/MyLocalStorage";
 
 const CardList = ({ movies }) => {
   const [favoriteMovies, setFavoriteMovies] = useState([]);
   const user = useSelector((state) => state.user);
+  const history = useSelector((state) => state.history);
+
+  console.log("history", history, movies);
+
+  useEffect(() => {
+    MyLocalStorage.setItem(`history`, history);
+    console.log("LS");
+  }, [history]);
 
   useEffect(() => {
     const checkFavorites = async () => {
@@ -55,8 +64,8 @@ const CardList = ({ movies }) => {
         {movies.map((item) => (
           <ImageListItem key={item.id} sx={{ width: "22vw", maxWidth: 308 }}>
             <img
-              srcSet={`${item.poster.previewUrl}`}
-              src={`${item.poster.previewUrl}`}
+              srcSet={`${item.poster?.previewUrl}`}
+              src={`${item.poster?.previewUrl}`}
               alt={item.title}
               loading="lazy"
             />

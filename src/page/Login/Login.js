@@ -3,7 +3,7 @@ import MyButton from "../../components/UI/button/MyButton";
 import supabase from "../../supabase/supabaseClient";
 import { Box, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { setUser } from "../../store/movieReducer";
+import { setUserAction } from "../../store/movieReducer";
 import { useNavigate } from "react-router-dom";
 import MyLocalStorage from "../../utils/MyLocalStorage";
 
@@ -25,7 +25,7 @@ export const Login = () => {
       });
     };
     signIn();
-    dispatch(setUser(values.email));
+    dispatch(setUserAction(values.email));
     MyLocalStorage.setItem("user", values.email);
     navigate("/");
   };

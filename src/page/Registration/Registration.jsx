@@ -6,7 +6,7 @@ import supabase from "../../supabase/supabaseClient";
 import MyButton from "../../components/UI/button/MyButton";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setUser } from "../../store/movieReducer";
+import { setUserAction } from "../../store/movieReducer";
 import MyLocalStorage from "../../utils/MyLocalStorage";
 
 const Registration = () => {
@@ -32,7 +32,7 @@ const Registration = () => {
 
   const onSubmitHandler = (values) => {
     registerNewUser(values);
-    dispatch(setUser(values.name));
+    dispatch(setUserAction(values.name));
     MyLocalStorage.setItem("user", values.email);
     console.log(values);
     navigate("/");
