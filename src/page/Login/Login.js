@@ -5,6 +5,8 @@ import { Box, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { setLoggedInAction, setUser } from "../../store/movieReducer";
 import { useNavigate } from "react-router-dom";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema } from "../../utils/validationForm";
 
 export const Login = () => {
   const dispatch = useDispatch();
@@ -14,7 +16,7 @@ export const Login = () => {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+  } = useForm({ resolver: zodResolver(loginSchema)});
 
   const onSubmitHandler = (values) => {
     const signIn = async () => {

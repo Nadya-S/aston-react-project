@@ -1,64 +1,30 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import CardList from "../../components/CardList/CardList";
-import supabase from "../../supabase/supabaseClient";
-import { getFavorites } from "../../api/api";
 import UpdateFavorites from "../../supabase/UpdateFavorites";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDataSupabase, fetchFavoriteMovies } from "../../store/actions";
+const MemoizedCardList = React.memo(CardList);
 
 
 const FavoriteMovies = () => {
 
-  const [dataSupabase, setDataSupabase] = useState([])
-  const [favoriteMovies, setFavoriteMovies] = useState([])
+  const dataSupabase = useSelector(state => state.dataSupabase)
+  const favoriteMovies = useSelector(state => state.favoriteMovies)
+  const user = useSelector(state => state.user)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    const getDataSupabases = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      const { data: favorite, error } = await supabase
-        .from('favorites')
-        .select('*')
-        .eq('user_id', user.id)
-
-      const favoriteWithId = favorite.map((item) => ({
-        ...item,
-        supaId: item.id
-      }))
-
-      setDataSupabase(favoriteWithId)
+    if(user) {
+      dispatch(fetchDataSupabase())
     }
-    getDataSupabases()
   }, [])
 
   useEffect(() => {
-    if (dataSupabase.length > 0) {
-      const promises = dataSupabase.map((item) => {
-        const movieId = item.movie
-        return getFavorites(String(movieId))
-          .then((data) => ({
-            ...item,
-            favoritesData: data.docs
-          }))
-      })
-
-      Promise.all(promises)
-        .then((results) => {
-          const movies = results.flatMap((item) => {
-            const { favoritesData, ...rest } = item;
-            return favoritesData.map((data) => ({
-              ...rest,
-              supaId: item.supaId,
-              ...data
-            }))
-          })
-          setFavoriteMovies(movies)
-        })
-        .catch((error) => {
-          console.error("Произошла ошибка:", error);
-        })
-    }
+    dispatch(fetchFavoriteMovies(dataSupabase))
   }, [dataSupabase])
 
   const handleUpdateFavorites = async(movieId, supaId) => {
-    await UpdateFavorites(movieId, supaId, favoriteMovies, setFavoriteMovies)
+    await UpdateFavorites(movieId, supaId, favoriteMovies)
   }
 
   return (
@@ -66,7 +32,7 @@ const FavoriteMovies = () => {
       <h1>Избранное</h1>
       {
         favoriteMovies.length > 0
-          ? <CardList movies={favoriteMovies} onUpdateFavorites={handleUpdateFavorites} />
+          ? <MemoizedCardList movies={favoriteMovies} onUpdateFavorites={handleUpdateFavorites} />
           : <div>Список пуст</div>
       }
     </section>

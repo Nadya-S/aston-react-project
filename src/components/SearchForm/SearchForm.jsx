@@ -1,27 +1,27 @@
 import { TextField } from "@mui/material";
 import { useState, useEffect, useCallback } from "react";
-import { fetchSearchKinopoisk } from "../../api/api";
 import { useDebounce } from "../../hooks/debounce";
+import { fetchMovies, getSearchMovies } from "../../store/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { getSearchMoviesAction } from "../../store/movieReducer";
 
-const SearchForm = ({ onMoviesChange }) => {
+const SearchForm = () => {
   const [search, setSearch] = useState("");
   const debounce = useDebounce(search);
+  const currentPage = useSelector((state) => state.currentPage);
+  
+  const dispatch = useDispatch();
 
   const handleChangeInput = useCallback((event) => {
     setSearch(event.target.value);
   }, []);
 
   useEffect(() => {
-    if (debounce) {
-      fetchSearchKinopoisk(search)
-        .then((data) => {
-          onMoviesChange(data.docs);
-        })
-        .catch((error) => {
-          console.error("Произошла ошибка при поиске фильмов:", error);
-        });
-    } else {
-      onMoviesChange([]);
+    if(debounce.length > 0) {
+      dispatch(getSearchMovies(debounce))
+    } else if(debounce.length === 0) {
+      dispatch(getSearchMoviesAction([]))
+      dispatch(fetchMovies(currentPage))
     }
   }, [debounce]);
 
