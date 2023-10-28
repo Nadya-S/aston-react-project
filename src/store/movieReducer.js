@@ -1,11 +1,13 @@
+import MyLocalStorage from "../utils/MyLocalStorage";
+
 const defaultState = {
   movies: [],
   searchMovies: [],
   favoriteMovies: [],
   dataSupabase: [],
   currentMovie: null,
-  loggedIn: false,
-  user: "",
+  user: MyLocalStorage.getItem("user"),
+  history: MyLocalStorage.getItem("history") || [],
   isLoading: false,
   error: false,
   currentPage: 1,
@@ -19,6 +21,7 @@ const SET_FAVORITE_MOVIES = "SET_FAVORITE_MOVIES";
 const SET_DATA_SUPABASE = "SET_DATA_SUPABASE";
 const SET_LOGGED_IN = "LOGGED_IN";
 const SET_USER = "SET_USER";
+const SET_HISTORY = "SET_HISTORY";
 const SET_IS_LOADING = "SET_IS_LOADING";
 const SET_ERROR = "SET_ERROR";
 const SET_FETCHING = "SET_FETCHING";
@@ -41,6 +44,8 @@ export const movieReducer = (state = defaultState, action) => {
       return { ...state, loggedIn: action.payload };
     case SET_USER:
       return { ...state, user: action.payload };
+    case SET_HISTORY:
+      return { ...state, history: [...state.history, action.payload] };
     case SET_IS_LOADING:
       return { ...state, isLoading: action.payload };
     case SET_ERROR:
@@ -75,18 +80,19 @@ export const setLoggedInAction = (payload) => ({
   type: SET_LOGGED_IN,
   payload,
 });
-export const setUser = (payload) => ({ type: SET_USER, payload });
+
+export const setUserAction = (payload) => ({ type: SET_USER, payload });
+export const setHistoryAction = (payload) => ({ type: SET_HISTORY, payload });
 export const setIsLoadingAction = (payload) => ({
   type: SET_IS_LOADING,
   payload,
 });
-export const setError = (payload) => ({ type: SET_ERROR, payload });
 export const setFetchingAction = (payload) => ({
   type: SET_FETCHING,
   payload,
 });
-
 export const setCurrentPageAction = (payload) => ({
   type: SET_CURRENT_PAGE,
   payload,
 });
+export const setErrorAction = (payload) => ({ type: SET_ERROR, payload });

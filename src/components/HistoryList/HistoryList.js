@@ -1,19 +1,12 @@
 import "./HistoryList.css";
 import HistoryItem from "../HistoryItem/HistoryItem";
 
-const HistoryList = ({ handleSearchState }) => {
-  // сделать отрисовку через map
+const HistoryList = ({ history, handleSearchState }) => {
   return (
     <ul className="history-list">
-      <li>
-        <HistoryItem handleSearchState={handleSearchState} />
-      </li>
-      <li>
-        <HistoryItem />
-      </li>
-      <li>
-        <HistoryItem />
-      </li>
+      {history.map((item) => (
+        <HistoryItem itemData={item} handleSearchState={handleSearchState} />
+      ))}
     </ul>
   );
 };

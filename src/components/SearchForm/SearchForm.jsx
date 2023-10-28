@@ -1,11 +1,14 @@
 import { TextField } from "@mui/material";
 import { useState, useEffect, useCallback } from "react";
 import { useDebounce } from "../../hooks/debounce";
+import { setHistoryAction } from "../../store/movieReducer";
 import { fetchMovies, getSearchMovies } from "../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { getSearchMoviesAction } from "../../store/movieReducer";
 
 const SearchForm = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const [search, setSearch] = useState("");
   const debounce = useDebounce(search);
   const currentPage = useSelector((state) => state.currentPage);

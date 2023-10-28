@@ -3,10 +3,11 @@ import MyButton from "../../components/UI/button/MyButton";
 import supabase from "../../supabase/supabaseClient";
 import { Box, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { setLoggedInAction, setUser } from "../../store/movieReducer";
+import { setUserAction } from "../../store/movieReducer";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../../utils/validationForm";
+import MyLocalStorage from "../../utils/MyLocalStorage";
 
 export const Login = () => {
   const dispatch = useDispatch();
@@ -26,8 +27,8 @@ export const Login = () => {
       });
     };
     signIn();
-    dispatch(setLoggedInAction(true));
-    dispatch(setUser(values.email)); // не знаю как вытянуть имя из supabase
+    dispatch(setUserAction(values.email));
+    MyLocalStorage.setItem("user", values.email);
     navigate("/");
   };
 

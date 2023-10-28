@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import supabase from "../../supabase/supabaseClient";
 import MyButton from "../UI/button/MyButton";
 import { useDispatch } from "react-redux";
-import { setLoggedInAction } from "../../store/movieReducer";
+import { setUserAction } from "../../store/movieReducer";
 
 const Signout = () => {
   const dispatch = useDispatch();
@@ -10,8 +10,8 @@ const Signout = () => {
 
   const signOut = () => {
     supabase.auth.signOut();
-    dispatch(setLoggedInAction(false));
-
+    dispatch(setUserAction(null));
+    localStorage.clear();
     navigate("/");
   };
 
