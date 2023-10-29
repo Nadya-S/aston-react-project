@@ -6,6 +6,8 @@ const token = "JEYYPR0-1A9MZG1-MBK5NWA-YYW4W9S";
 // const token = "YCN9SB4-XF2MYPQ-P0QBPEF-CXKQM5G";
 // const token = "MCS53CT-Q7H45X3-J9SPNX1-750HK81";
 // const token = "YWY55SA-QXA4Y0G-PB327FR-Q4EDHP3";
+//const token = "Z0CQBGB-N87M2YF-MR1W7SY-J479KN3";
+// const token = "6M2VTGK-FQ5MVHJ-QJ0E282-RRSA6X8";
 
 export const fetchKinopoisk = (currentPage) => {
   return fetch(url + `?limit=10&page=${currentPage}`, {

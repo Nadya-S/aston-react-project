@@ -26,11 +26,15 @@ const CardList = ({ movies }) => {
 
   useEffect(() => {
     const checkFavorites = async () => {
-      let { data: favorites, error } = await supabase
-        .from("favorites")
-        .select("*");
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        let { data: favorites, error } = await supabase
+          .from("favorites")
+          .select("*")
+          .eq('user_id', user.id)
 
-      setFavoriteMovies(favorites);
+        setFavoriteMovies(favorites);
+      }
     };
     checkFavorites();
   }, []);

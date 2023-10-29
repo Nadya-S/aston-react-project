@@ -1,12 +1,20 @@
-import {  object, string,  } from 'zod';
+import {  object, string } from 'zod';
 
 export const registerSchema = object({
   name: string()
-    .nonempty('Name is required')
-    .max(32, 'Name must be less than 100 characters'),
-  email: string().nonempty('Email is required').email('Email is invalid'),
+    .nonempty('Имя обязательно')
+    .max(10, 'Имя должно содержать не более 10 символов'),
+  email: string().nonempty('Требуется электронная почта').email('Адрес электронной почты недействителен'),
   password: string()
-    .nonempty('Password is required')
-    .min(8, 'Password must be more than 8 characters')
-    .max(32, 'Password must be less than 32 characters'),
+    .nonempty('Требуется пароль')
+    .min(8, 'Пароль должен содержать более 8 символов')
+    .max(32, 'Пароль должен содержать не более 32 символов'),
+})
+
+export const loginSchema = object({
+  email: string().nonempty('Требуется электронная почта').email(),
+  password: string()
+    .nonempty('Требуется пароль')
+    .min(8, 'Пароль должен содержать более 8 символов')
+    .max(32, 'Пароль должен содержать не более 32 символов'),
 })

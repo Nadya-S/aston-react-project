@@ -14,7 +14,7 @@ const Registration = () => {
   const dispatch = useDispatch();
   const {
     register,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors},
     handleSubmit,
   } = useForm({ resolver: zodResolver(registerSchema) });
 
