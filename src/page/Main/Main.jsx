@@ -11,9 +11,11 @@ const Main = () => {
   const currentPage = useSelector((state) => state.currentPage);
   const fetching = useSelector((state) => state.fetching);
   const searchValue = useSelector((state) => state.searchValue);
+  console.log("MAIN", fetching);
 
   useEffect(() => {
-    dispatch(fetchMovies(currentPage));
+    console.log("MAIN FETCH MOVIES");
+    dispatch(fetchMovies(currentPage)); //срабатывает один раз, все ок
   }, []);
 
   useEffect(() => {
@@ -22,6 +24,7 @@ const Main = () => {
       const { scrollTop, clientHeight, scrollHeight } =
         document.documentElement;
       if (scrollTop + clientHeight === scrollHeight) {
+        console.log("SCROLL");
         dispatch(fetchMovies(currentPage));
       }
     };

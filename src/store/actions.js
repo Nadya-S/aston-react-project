@@ -23,6 +23,7 @@ export const fetchMovies = (currentPage) => {
     dispatch(setFetchingAction(true));
     fetchKinopoisk(currentPage)
       .then((data) => {
+        console.log("fetch", data);
         dispatch(getMoviesAction([...movies, ...data.docs]));
         dispatch(setCurrentPageAction(currentPage + 1));
       })
