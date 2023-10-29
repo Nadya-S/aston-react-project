@@ -1,12 +1,18 @@
 import "./History.css";
 import HistoryList from "../../components/HistoryList/HistoryList";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setSearchValueAction } from "../../store/movieReducer";
+import { useNavigate } from "react-router-dom";
 
 const History = () => {
   const history = useSelector((state) => state.history);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleSearchState = () => {
+  const handleSearchState = (searchValue) => {
     console.log("handleSearchStat");
+    dispatch(setSearchValueAction(searchValue));
+    navigate("/");
     //написать функцию, которая будет делать запрос с параметрами из текущего айтема и редиректить на мэйн
   };
 

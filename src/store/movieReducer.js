@@ -5,8 +5,7 @@ const defaultState = {
   currentMovie: null,
   user: MyLocalStorage.getItem("user"),
   history: MyLocalStorage.getItem("history") || [],
-  isLoading: false,
-  error: false,
+  searchValue: "",
 };
 
 const GET_MOVIES = "GET_MOVIES";
@@ -14,8 +13,7 @@ const GET_CURRENT_MOVIE = "GET_CURRENT_MOVIE";
 const SET_USER = "SET_USER";
 const SET_HISTORY = "SET_HISTORY";
 const CLEAR_HISTORY = "CLEAR_HISTORY";
-const SET_IS_LOADING = "SET_IS_LOADING";
-const SET_ERROR = "SET_ERROR";
+const SET_SEARCH_VALUE = "SET_SEARCH_VALUE";
 
 export const movieReducer = (state = defaultState, action) => {
   switch (action.type) {
@@ -29,10 +27,8 @@ export const movieReducer = (state = defaultState, action) => {
       return { ...state, history: [...state.history, action.payload] };
     case CLEAR_HISTORY:
       return { ...state, history: [] };
-    case SET_IS_LOADING:
-      return { ...state, isLoading: action.payload };
-    case SET_ERROR:
-      return { ...state, error: action.payload };
+    case SET_SEARCH_VALUE:
+      return { ...state, searchValue: action.payload };
     default:
       return state;
   }
@@ -46,8 +42,7 @@ export const getCurrentMovieAction = (payload) => ({
 export const setUserAction = (payload) => ({ type: SET_USER, payload });
 export const setHistoryAction = (payload) => ({ type: SET_HISTORY, payload });
 export const clearHistoryAction = () => ({ type: CLEAR_HISTORY });
-export const setIsLoadingAction = (payload) => ({
-  type: SET_IS_LOADING,
+export const setSearchValueAction = (payload) => ({
+  type: SET_SEARCH_VALUE,
   payload,
 });
-export const setErrorAction = (payload) => ({ type: SET_ERROR, payload });

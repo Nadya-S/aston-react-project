@@ -12,6 +12,8 @@ const Main = () => {
   const [fetching, setFetching] = useState(true);
   const dispatch = useDispatch();
   // const movies = useSelector((state) => state.movies);
+  const searchValue = useSelector((state) => state.searchValue);
+  console.log("search", searchValue);
 
   const handleMoviesChange = useCallback(
     (newMovies) => {

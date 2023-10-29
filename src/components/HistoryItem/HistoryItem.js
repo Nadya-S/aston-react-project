@@ -4,9 +4,13 @@ import { ImageList, ImageListItem, Paper } from "@mui/material";
 
 const HistoryItem = ({ itemData, handleSearchState }) => {
   console.log(itemData);
+  const handleClick = () => {
+    handleSearchState(itemData[0]);
+  };
+
   return (
     <div className="history-item">
-      <Paper elevation={3} onClick={handleSearchState}>
+      <Paper elevation={3} onClick={handleClick}>
         <p className="history-item__search-data">
           Параметры поиска: {itemData[0]}
         </p>
