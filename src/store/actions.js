@@ -1,4 +1,9 @@
-import { fetchKinopoisk, fetchSearchKinopoisk, getFavorites, getOneCard } from "../api/api";
+import {
+  fetchKinopoisk,
+  fetchSearchKinopoisk,
+  getFavorites,
+  getOneCard,
+} from "../api/api";
 import supabase from "../supabase/supabaseClient";
 import {
   getMoviesAction,
@@ -7,15 +12,15 @@ import {
   setFetchingAction,
   getSearchMoviesAction,
   setDataSupabaseAction,
-  setFavoriteMoviesAction
+  setFavoriteMoviesAction,
+  setHistoryAction,
 } from "./movieReducer";
-
 
 export const fetchMovies = (currentPage) => {
   return (dispatch, getState) => {
     const { movies } = getState();
 
-    dispatch(setFetchingAction(true))
+    dispatch(setFetchingAction(true));
     fetchKinopoisk(currentPage)
       .then((data) => {
         dispatch(getMoviesAction([...movies, ...data.docs]));
@@ -41,59 +46,67 @@ export const getCurrentMovie = (id, dispatch) => {
     });
 };
 
-export const getSearchMovies = (search) => {
+export const getSearchMovies = (search, user) => {
   return (dispatch) => {
     fetchSearchKinopoisk(search)
       .then((data) => {
-        console.log('ТУТ ПРИШЛИ ДАННЫЕ ПОИСКА',data)
+        console.log("ТУТ ПРИШЛИ ДАННЫЕ ПОИСКА", data);
         dispatch(getSearchMoviesAction(data.docs));
+        if (data.docs.length > 0 && user) {
+          dispatch(setHistoryAction([search, data.docs]));
+        }
       })
       .catch((error) => {
         console.error("Произошла ошибка при поиске фильмов:", error);
       });
-  }
-}
+  };
+};
 
 export const fetchDataSupabase = () => async (dispatch) => {
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   const { data: favorite, error } = await supabase
-    .from('favorites')
-    .select('*')
-    .eq('user_id', user.id)
+    .from("favorites")
+    .select("*")
+    .eq("user_id", user.id);
 
-  const favoriteWithId = favorite ? favorite.map((item) => ({
-    ...item,
-    supaId: item.id
-  })) : []
+  const favoriteWithId = favorite
+    ? favorite.map((item) => ({
+        ...item,
+        supaId: item.id,
+      }))
+    : [];
 
-  dispatch(setDataSupabaseAction(favoriteWithId))
-}
+  dispatch(setDataSupabaseAction(favoriteWithId));
+};
 
 export const fetchFavoriteMovies = (dataSupabase) => (dispatch) => {
   if (dataSupabase.length > 0) {
     const promises = dataSupabase.map((item) => {
-      const movieId = item.movie
-      return getFavorites(String(movieId))
-        .then((data) => ({
-          ...item,
-          favoritesData: data.docs
-        }))
-    })
+      const movieId = item.movie;
+      return getFavorites(String(movieId)).then((data) => ({
+        ...item,
+        favoritesData: data.docs,
+      }));
+    });
 
     Promise.all(promises)
       .then((results) => {
-        const movies = results ? results.flatMap((item) => {
-          const { favoritesData, ...rest } = item;
-          return favoritesData.map((data) => ({
-            ...rest,
-            supaId: item.supaId,
-            ...data
-          }))
-        }) : []
-        dispatch(setFavoriteMoviesAction(movies))
+        const movies = results
+          ? results.flatMap((item) => {
+              const { favoritesData, ...rest } = item;
+              return favoritesData.map((data) => ({
+                ...rest,
+                supaId: item.supaId,
+                ...data,
+              }));
+            })
+          : [];
+        dispatch(setFavoriteMoviesAction(movies));
       })
       .catch((error) => {
         console.error("Произошла ошибка:", error);
-      })
+      });
   }
-}
+};

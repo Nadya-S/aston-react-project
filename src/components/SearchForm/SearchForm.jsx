@@ -12,19 +12,17 @@ const SearchForm = () => {
   const [search, setSearch] = useState("");
   const debounce = useDebounce(search);
   const currentPage = useSelector((state) => state.currentPage);
-  
-  const dispatch = useDispatch();
 
   const handleChangeInput = useCallback((event) => {
     setSearch(event.target.value);
   }, []);
 
   useEffect(() => {
-    if(debounce.length > 0) {
-      dispatch(getSearchMovies(debounce))
-    } else if(debounce.length === 0) {
-      dispatch(getSearchMoviesAction([]))
-      dispatch(fetchMovies(currentPage))
+    if (debounce.length > 0) {
+      dispatch(getSearchMovies(debounce, user));
+    } else if (debounce.length === 0) {
+      dispatch(getSearchMoviesAction([]));
+      dispatch(fetchMovies(currentPage));
     }
   }, [debounce]);
 
