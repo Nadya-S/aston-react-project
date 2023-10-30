@@ -3,7 +3,6 @@ import logo from "../../images/logo.png";
 import "./Header.css";
 
 const Header = ({ children }) => {
-  console.log("HEADER");
   return (
     <section className="header">
       <div className="header__image_container">
