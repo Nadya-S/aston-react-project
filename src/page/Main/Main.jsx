@@ -10,7 +10,6 @@ const Main = () => {
   const searchMovies = useSelector((state) => state.searchMovies);
   const currentPage = useSelector((state) => state.currentPage);
   const fetching = useSelector((state) => state.fetching);
-  const searchValue = useSelector((state) => state.searchValue);
   console.log("MAIN", fetching, searchMovies);
 
   useEffect(() => {
