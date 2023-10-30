@@ -11,11 +11,13 @@ const Main = () => {
   const currentPage = useSelector((state) => state.currentPage);
   const fetching = useSelector((state) => state.fetching);
   const searchValue = useSelector((state) => state.searchValue);
-  console.log("MAIN", fetching);
+  console.log("MAIN", fetching, searchMovies);
 
   useEffect(() => {
-    console.log("MAIN FETCH MOVIES");
-    dispatch(fetchMovies(currentPage)); //срабатывает один раз, все ок
+    console.log("MAIN FETCH MOVIES", searchMovies);
+    if (movies.length === 0) {
+      dispatch(fetchMovies(currentPage)); //срабатывает один раз, все ок
+    }
   }, []);
 
   useEffect(() => {

@@ -90,7 +90,7 @@ const CardList = memo(function ({ movies }) {
                   {item.name} ({item.year})
                 </span>
               }
-              subtitle={<span>Жанр: {item.genres[0].name}</span>}
+              subtitle={<span>Жанр: {item.genres[0]?.name}</span>}
               position="below"
               actionIcon={
                 user && (

@@ -5,7 +5,7 @@ import { ImageList, ImageListItem, Paper } from "@mui/material";
 const HistoryItem = ({ itemData, handleSearchState }) => {
   console.log(itemData);
   const handleClick = () => {
-    handleSearchState(itemData[0]);
+    handleSearchState(itemData[0], itemData[1]);
   };
 
   return (
