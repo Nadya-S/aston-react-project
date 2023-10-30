@@ -12,23 +12,23 @@ const Main = () => {
   const currentPage = useSelector((state) => state.currentPage);
   const fetching = useSelector((state) => state.fetching);
 
-  useEffect(() => {
-      dispatch(fetchMovies(currentPage))
-  }, []);
+  // useEffect(() => {
+  //     dispatch(fetchMovies(currentPage))
+  // }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (fetching) return;
-      const { scrollTop, clientHeight, scrollHeight } = document.documentElement
-      if (scrollTop + clientHeight === scrollHeight) {
-        dispatch(fetchMovies(currentPage))
-      }
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [fetching]);
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     if (fetching) return;
+  //     const { scrollTop, clientHeight, scrollHeight } = document.documentElement
+  //     if (scrollTop + clientHeight === scrollHeight) {
+  //       dispatch(fetchMovies(currentPage))
+  //     }
+  //   }
+  //   window.addEventListener('scroll', handleScroll)
+  //   return () => {
+  //     window.removeEventListener('scroll', handleScroll)
+  //   }
+  // }, [fetching]);
 
   return (
     <section>

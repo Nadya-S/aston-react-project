@@ -13,7 +13,7 @@ const SearchForm = () => {
   const debounce = useDebounce(search);
   const currentPage = useSelector((state) => state.currentPage);
   
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const handleChangeInput = useCallback((event) => {
     setSearch(event.target.value);
